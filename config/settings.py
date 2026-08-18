@@ -53,8 +53,12 @@ INSTALLED_APPS = [
     "taggit",
     # My apps
     "home",
+    "accounts",
     "skills_blog",
 ]
+
+
+AUTH_USER_MODEL = "accounts.CustomUser"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -143,3 +147,10 @@ MAILERS = {
         "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
 }
+
+# Variables de Wagtail
+
+WAGTAIL_SITE_NAME = "Skills-CMS"
+WAGTAILADMIN_BASE_URL = "http://localhost:8000"
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
