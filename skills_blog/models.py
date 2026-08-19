@@ -1,4 +1,5 @@
 from django.db import models
+from wagtail.api import APIField
 from wagtail.models import Page
 from wagtail.fields import RichTextField
 from taggit.models import TaggedItemBase
@@ -44,6 +45,16 @@ class ArticlePage(Page):
     caption = models.CharField(blank=True, max_length=80)
     tags = ClusterTaggableManager(through="ArticleTag", blank=True)
     repo_url = models.URLField(blank=True)
+
+    api_fields = [
+        APIField("intro"),
+        APIField("body"),
+        APIField("date"),
+        APIField("image"),
+        APIField("caption"),
+        APIField("tags"),
+        APIField("repo_url"),
+    ]
 
     def get_author(self):
         return self.owner.username

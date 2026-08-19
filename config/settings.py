@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    "wagtail.api.v2",
+    "rest_framework",
     # My apps
     "home",
     "accounts",
