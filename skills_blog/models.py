@@ -1,4 +1,5 @@
 from django.db import models
+from treebeard.utils import serializers
 from wagtail.api import APIField
 from wagtail.models import Page
 from wagtail.fields import RichTextField
@@ -8,6 +9,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.panels import FieldPanel
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from datetime import date
+from rest_framework.fields import Field
 
 
 # Create your models here.
@@ -35,6 +37,27 @@ class BlogPage(Page):
         return context
 
 
+class ImageUrl(Field):
+    def to_representation(self, value):
+        return {
+            "url": value.file.url,
+            "title": value.title,
+            "width": value.width,
+            "height": value.height,
+        }
+
+
+class OwnerProfile(Field):
+    def to_representation(self, value):
+        return {
+            "username": value.username,
+            "first_name": value.first_name,
+            "last_name": value.last_name,
+            "email": value.email,
+            "profile_picture": value.profile_picture.url,
+        }
+
+
 class ArticlePage(Page):
     intro = models.CharField(max_length=80)
     body = RichTextField(blank=True)
@@ -50,7 +73,8 @@ class ArticlePage(Page):
         APIField("intro"),
         APIField("body"),
         APIField("date"),
-        APIField("image"),
+        APIField("image", serializer=ImageUrl()),
+        APIField("owner", serializer=OwnerProfile()),
         APIField("caption"),
         APIField("tags"),
         APIField("repo_url"),
