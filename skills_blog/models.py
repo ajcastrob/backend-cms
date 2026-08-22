@@ -39,8 +39,12 @@ class BlogPage(Page):
 
 class ImageUrl(Field):
     def to_representation(self, value):
+        if not value:
+            return None
+
+        rendition = value.get_rendition("width-1600|format-webp")
         return {
-            "url": value.file.url,
+            "url": rendition.url,
             "title": value.title,
             "width": value.width,
             "height": value.height,
