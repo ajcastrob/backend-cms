@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 def trigger_pages_build(**kwargs):
-    url = os.getenv("NETLIFY_BUILD_HOOK")
+    url = os.getenv("CLOUDFLARE_BUILD_HOOK")
     if not url:
         return
     try:
