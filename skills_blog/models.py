@@ -1,5 +1,7 @@
+from enum import unique
 from django.db import models
 from treebeard.utils import serializers
+from wagtail.admin import panels
 from wagtail.api import APIField
 from wagtail.models import Page
 from wagtail.fields import RichTextField
@@ -10,6 +12,7 @@ from wagtail.admin.panels import FieldPanel
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from datetime import date
 from rest_framework.fields import Field
+from wagtail.snippets.models import register_snippet
 
 
 # Create your models here.
@@ -115,3 +118,22 @@ class ArticleTag(TaggedItemBase):
         on_delete=models.CASCADE,
         related_name="tagged_items",
     )
+
+
+@register_snippet
+class NewsletterSubscriber(models.Model):
+    name = models.CharField(max_length=120)
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("email"),
+        FieldPanel("created_at", read_only=True),
+    ]
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.name} <{self.email}>"

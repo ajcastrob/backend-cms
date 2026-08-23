@@ -20,12 +20,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from .api import api_router
+from skills_blog.webhooks import buttondown_webhook
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("home.urls", namespace="home")),
     path("blog/", include("skills_blog.urls")),
     path("api/v2/", api_router.urls),
+    path("api/webhooks/buttondown/", buttondown_webhook),
 ]
 
 if settings.DEBUG:
