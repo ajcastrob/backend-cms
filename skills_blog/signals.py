@@ -1,7 +1,7 @@
 import logging
 import os
 import requests
-from wagtail.signals import page_published
+from wagtail.signals import page_published, page_unpublished
 
 from .models import ArticlePage
 
@@ -60,4 +60,12 @@ def on_article_published(**kwargs):
     notify_buttondown(**kwargs)
 
 
+def on_article_unpublished(**kwargs):
+    page = kwargs.get("page")
+    if page is None or not isinstance(page, ArticlePage):
+        return
+    trigger_pages_build(**kwargs)
+
+
 page_published.connect(on_article_published)
+page_unpublished.connect(on_article_unpublished)
