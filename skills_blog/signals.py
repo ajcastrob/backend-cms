@@ -55,7 +55,7 @@ def notify_buttondown(**kwargs):
 
 
 def on_article_published(**kwargs):
-    page = kwargs.get("page")
+    page = kwargs.get("page") or kwargs.get("instance")
     logger.warning(
         "[SIGNAL] on_article_published page=%s is_article=%s",
         getattr(page, "title", None),
@@ -68,7 +68,7 @@ def on_article_published(**kwargs):
 
 
 def on_article_unpublished(**kwargs):
-    page = kwargs.get("page")
+    page = kwargs.get("page") or kwargs.get("instance")
     logger.warning(
         "[SIGNAL] on_article_unpublished page=%s is_article=%s",
         getattr(page, "title", None),
