@@ -29,8 +29,11 @@ def notify_buttondown(**kwargs):
     slug = page.slug
     base = os.getenv("FRONTEND_URL", "https://frontend-astro-cp1.pages.dev")
     post_url = f"{base}/skills/{slug}/"
-    body = (
-        f"# {title}\n\n"
+    body = f"# {title}\n\n"
+    if page.image:
+        image_url = page.image.get_rendition("width-800").url
+        body += f'<img src="{image_url}" alt="{title}" style="max-width:100%;height:auto;" />\n\n'
+    body += (
         f"Se publico un nuevo articulo: **{title}**.\n\n"
         f"Leelo aqui: {post_url}"
     )
