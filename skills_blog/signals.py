@@ -33,7 +33,7 @@ def notify_buttondown(**kwargs):
     if page.image:
         image_url = page.image.get_rendition("width-800").url
         body += f'<img src="{image_url}" alt="{title}" style="max-width:100%;height:auto;" />\n\n'
-    body += f"Se publicó un nuevo artículo: **{title}**.\n\nLeelo aquí: [{slug}]({post_url})"
+    body += f"Se publicó un nuevo artículo: **{title}**.\n\nLéelo aquí: [{slug}]({post_url})"
     headers = {
         "Authorization": f"Token {api_key}",
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ def notify_buttondown(**kwargs):
             "https://api.buttondown.com/v1/emails",
             headers=headers,
             json={
-                "subject": f"Nuevo articulo: {title}",
+                "subject": f"Nuevo artículo: {title}",
                 "body": body,
                 "status": "draft",
             },
