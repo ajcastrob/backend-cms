@@ -60,7 +60,6 @@ class OwnerProfile(Field):
             "username": value.username,
             "first_name": value.first_name,
             "last_name": value.last_name,
-            "email": value.email,
             "profile_picture": value.profile_picture.url
             if value.profile_picture
             else None,
