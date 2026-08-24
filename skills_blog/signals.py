@@ -34,22 +34,48 @@ def notify_buttondown(**kwargs):
         f"Se publico un nuevo articulo: **{title}**.\n\n"
         f"Leelo aqui: {post_url}"
     )
+    headers = {
+        "Authorization": f"Token {api_key}",
+        "Content-Type": "application/json",
+    }
     try:
+        # Step 1: Create email as draft
         resp = requests.post(
             "https://api.buttondown.com/v1/emails",
-            headers={
-                "Authorization": f"Token {api_key}",
-                "Content-Type": "application/json",
-            },
+            headers=headers,
             json={
                 "subject": f"Nuevo articulo: {title}",
                 "body": body,
-                "status": "sent",
+                "status": "draft",
             },
             timeout=10,
         )
         if not resp.ok:
-            logger.warning("Buttondown notify failed: %s %s", resp.status_code, resp.text)
+            logger.warning(
+                "Buttondown draft creation failed: %s %s",
+                resp.status_code,
+                resp.text,
+            )
+            return
+
+        email_id = resp.json().get("id")
+        if not email_id:
+            logger.warning("Buttondown draft response missing id: %s", resp.text)
+            return
+
+        # Step 2: Send the draft
+        resp = requests.patch(
+            f"https://api.buttondown.com/v1/emails/{email_id}",
+            headers=headers,
+            json={"status": "about_to_send"},
+            timeout=10,
+        )
+        if not resp.ok:
+            logger.warning(
+                "Buttondown send failed: %s %s",
+                resp.status_code,
+                resp.text,
+            )
     except requests.RequestException as exc:
         logger.warning("Buttondown notify failed: %s", exc)
 
