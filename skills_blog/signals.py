@@ -35,7 +35,7 @@ def notify_buttondown(**kwargs):
         f"Leelo aqui: {post_url}"
     )
     try:
-        requests.post(
+        resp = requests.post(
             "https://api.buttondown.com/v1/emails",
             headers={
                 "Authorization": f"Token {api_key}",
@@ -44,10 +44,12 @@ def notify_buttondown(**kwargs):
             json={
                 "subject": f"Nuevo articulo: {title}",
                 "body": body,
-                "status": "scheduled",
+                "status": "sent",
             },
             timeout=10,
         )
+        if not resp.ok:
+            logger.warning("Buttondown notify failed: %s %s", resp.status_code, resp.text)
     except requests.RequestException as exc:
         logger.warning("Buttondown notify failed: %s", exc)
 
