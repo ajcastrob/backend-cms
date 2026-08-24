@@ -27,7 +27,7 @@ def notify_buttondown(**kwargs):
         return
     title = page.title
     slug = page.slug
-    base = os.getenv("WAGTAILADMIN_BASE_URL", "http://localhost:8000")
+    base = os.getenv("FRONTEND_URL", "https://frontend-astro-cp1.pages.dev")
     post_url = f"{base}/skills/{slug}/"
     body = (
         f"# {title}\n\n"
