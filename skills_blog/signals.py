@@ -33,10 +33,7 @@ def notify_buttondown(**kwargs):
     if page.image:
         image_url = page.image.get_rendition("width-800").url
         body += f'<img src="{image_url}" alt="{title}" style="max-width:100%;height:auto;" />\n\n'
-    body += (
-        f"Se publico un nuevo articulo: **{title}**.\n\n"
-        f"Leelo aqui: {post_url}"
-    )
+    body += f"Se publico un nuevo articulo: **{title}**.\n\nLeelo aquí: [{post_url}]"
     headers = {
         "Authorization": f"Token {api_key}",
         "Content-Type": "application/json",
