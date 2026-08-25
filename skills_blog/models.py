@@ -13,6 +13,7 @@ from modelcluster.contrib.taggit import ClusterTaggableManager
 from datetime import date
 from rest_framework.fields import Field
 from wagtail.snippets.models import register_snippet
+from wagtail_ai.panels import AITitleFieldPanel, AIDescriptionFieldPanel
 
 
 # Create your models here.
@@ -102,8 +103,9 @@ class ArticlePage(Page):
 
     template = "blog/article_page.html"
 
-    content_panels = Page.content_panels + [
-        FieldPanel("intro"),
+    content_panels = [
+        AITitleFieldPanel("title"),
+        AIDescriptionFieldPanel("intro"),
         FieldPanel("image"),
         FieldPanel("caption"),
         FieldPanel("body"),
