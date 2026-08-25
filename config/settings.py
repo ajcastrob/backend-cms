@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Other apps.
+    "wagtail_ai",
+    "wagtail.contrib.settings",
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
@@ -213,3 +215,24 @@ CSRF_TRUSTED_ORIGINS = [
     ).split(",")
     if o.strip()
 ]
+
+# Wagtail AI.
+WAGTAIL_AI = {
+    "PROVIDERS": {
+        "default": {
+            "provider": "gemini",
+            "model": os.getenv("WAGTAIL_AI_MODEL", "gemini-3.6-flash"),
+        },
+    },
+    "BACKENDS": {
+        "default": {
+            "CLASS": "wagtail_ai.ai.llm.LLMBackend",
+            "CONFIG": {
+                "MODEL_ID": os.getenv("WAGTAIL_AI_MODEL", "gemini-3.6-flash"),
+                "TOKEN_LIMIT": 32768,
+            },
+        },
+    },
+}
+
+WAGTAILIMAGES_IMAGE_FORM_BASE = "wagtail_ai.forms.DescribeImageForm"

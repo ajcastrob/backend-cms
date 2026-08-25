@@ -100,6 +100,8 @@ class ArticlePage(Page):
         index.SearchField("get_author_first_name"),
     ]
 
+    template = "blog/article_page.html"
+
     content_panels = Page.content_panels + [
         FieldPanel("intro"),
         FieldPanel("image"),
