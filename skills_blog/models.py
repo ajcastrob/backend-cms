@@ -1,10 +1,8 @@
-from enum import unique
 from django.db import models
-from treebeard.utils import serializers
-from wagtail.admin import panels
 from wagtail.api import APIField
 from wagtail.models import Page
 from wagtail.fields import RichTextField
+from wagtail.rich_text import expand_db_html
 from taggit.models import TaggedItemBase
 from wagtail.search import index
 from modelcluster.fields import ParentalKey
@@ -55,6 +53,11 @@ class ImageUrl(Field):
         }
 
 
+class APIRichText(Field):
+    def to_representation(self, value):
+        return expand_db_html(value) if value else ""
+
+
 class OwnerProfile(Field):
     def to_representation(self, value):
         return {
@@ -80,7 +83,7 @@ class ArticlePage(Page):
 
     api_fields = [
         APIField("intro"),
-        APIField("body"),
+        APIField("body", serializer=APIRichText()),
         APIField("date"),
         APIField("image", serializer=ImageUrl()),
         APIField("owner", serializer=OwnerProfile()),
