@@ -236,3 +236,5 @@ WAGTAIL_AI = {
 }
 
 WAGTAILIMAGES_IMAGE_FORM_BASE = "wagtail_ai.forms.DescribeImageForm"
+# Compresión de imágenes por Wagtail(Máximo permitido 2MB)
+WAGTAILIMAGES_MAX_UPLOAD_SIZE = 2 * 1024 * 1024
